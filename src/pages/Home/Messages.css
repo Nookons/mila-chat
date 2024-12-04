@@ -1,0 +1,42 @@
+
+.chat_block {
+    border-radius: 4px;
+    padding: 4px;
+    max-height: 75vh;
+    overflow-y: auto;
+    background: url("https://i.pinimg.com/736x/11/51/b5/1151b51cd51861cb5ce730a13653b89c.jpg");
+    background-size: cover;
+    margin: 14px 0;
+}
+.chat_block::-webkit-scrollbar {
+    width: 0;
+}
+
+.user_message {
+    padding: 4px;
+    width: auto;
+    display: flex;
+    justify-content: right;
+}
+.user_message > div {
+    background: rgb(196, 255, 122);
+    border-radius: 26px;
+    padding: 14px 14px;
+    max-width: 420px;
+}
+.user_message > div span {
+    color: #0c9700;
+}
+
+.not_user_message {
+    padding: 4px;
+    width: auto;
+    display: flex;
+    justify-content: left;
+}
+.not_user_message > div {
+    background: rgb(249, 255, 251);
+    border-radius: 26px;
+    padding: 14px 14px;
+    max-width: 420px;
+}
