@@ -9,6 +9,8 @@ import Text from "antd/es/typography/Text";
 import dayjs from "dayjs";
 import Button from "antd/es/button";
 import {CommentOutlined, DashOutlined} from '@ant-design/icons';
+import Message from "./Message";
+import {IMessage} from "../../types/Message";
 
 const ChatDisplay = () => {
     const user = useAppSelector((state) => state.user.user);
@@ -62,27 +64,7 @@ const ChatDisplay = () => {
                 {value?.docs.map((doc) => {
                     const messageData = doc.data();
                     return (
-                        <div
-                            key={doc.id}
-                            className={user.uid === messageData.user ? "user_message" : "not_user_message"}
-                        >
-                            <Row gutter={[16, 16]}>
-                                <Col style={{
-                                    display: "flex",
-                                    justifyContent: "flex-start",
-                                    alignItems: "center"
-                                }}>
-                                    <article style={{fontSize: 14}}>{messageData.body}</article>
-                                </Col>
-                                <Col  style={{
-                                    display: "flex",
-                                    justifyContent: "flex-end",
-                                    alignItems: "flex-end"
-                                }}>
-                                    <span style={{fontSize: 12, textWrap: "nowrap"}}>{dayjs(messageData.createdAt * 1000).format("HH:mm")}</span>
-                                </Col>
-                            </Row>
-                        </div>
+                        <Message messageData={messageData as IMessage}/>
                     );
                 })}
             </Col>

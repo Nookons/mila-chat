@@ -6,6 +6,7 @@ import { ArrowUpOutlined } from '@ant-design/icons';
 import { useAppSelector } from "../../hooks/storeHooks";
 import { collection, getFirestore, addDoc } from 'firebase/firestore';
 import {db} from "../../firebase";
+import dayjs from "dayjs";
 
 const ChatInput = () => {
     const user = useAppSelector(state => state.user.user);
@@ -30,7 +31,7 @@ const ChatInput = () => {
         try {
             await addDoc(collection(db, 'chat_room'), {
                 body: body_value,
-                createdAt: new Date(),
+                createdAt: dayjs().valueOf(),
                 message_id: Date.now(),
                 user: user?.uid,
                 user_name: user.first_name

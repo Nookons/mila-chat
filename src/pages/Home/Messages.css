@@ -22,7 +22,7 @@
     background: rgb(196, 255, 122);
     border-radius: 26px;
     padding: 14px 14px;
-    max-width: 420px;
+    max-width: 520px;
 }
 .user_message > div span {
     color: #0c9700;
@@ -38,5 +38,5 @@
     background: rgb(249, 255, 251);
     border-radius: 26px;
     padding: 14px 14px;
-    max-width: 420px;
+    max-width: 520px;
 }
