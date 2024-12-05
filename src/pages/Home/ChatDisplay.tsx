@@ -9,6 +9,7 @@ import Message from "./Message";
 import {IMessage} from "../../types/Message";
 import {useNavigate} from "react-router-dom";
 import {SIGN_IN_ROUTE} from "../../utils/const";
+import Button from "antd/es/button";
 
 const ChatDisplay = () => {
     const navigate = useNavigate();
@@ -77,13 +78,17 @@ const ChatDisplay = () => {
             className="chat_block"
             style={{
                 background: `url(${background.url})`,
-                backgroundSize: "contain"
+                backgroundSize: "contain",
             }}
             gutter={[16, 16]}
         >
-            <Col
-                span={24}
-            >
+            <Alert
+                style={{margin: 34}}
+                message={<span>Бұл жерде әлі хабарлар жоқ 😢</span>}
+                description={<span>Бұл жерде әлі де бірнеше хабар жетіспейтін сияқты, бірақ оны түзету оңай емес пе?</span>}
+                type="info"
+            />
+            <Col span={24}>
                 {value?.docs.map((doc) => {
                     const messageData = doc.data();
                     return (

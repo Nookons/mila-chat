@@ -13,6 +13,8 @@ const ChatInput = () => {
     const [body_value, setBody_value] = useState<string>("");
     const [isInput, setIsInput] = useState<boolean>(false);
 
+    const [isSending, setIsSending] = useState<boolean>(false);
+
 
     useEffect(() => {
         if (body_value.length > 0) {
@@ -22,22 +24,13 @@ const ChatInput = () => {
         }
     }, [body_value]);
 
-    if ('Notification' in window) {
-        // Проверяем, поддерживает ли браузер уведомления
-        Notification.requestPermission().then(permission => {
-            if (permission === 'granted') {
-                console.log('Permission granted for notifications');
-            } else {
-                console.log('Permission denied for notifications');
-            }
-        });
-    }
 
     const onSendMessage = async () => {
         if (!user) {
             message.warning("You need to be logged in to send a message.");
             return;
         }
+        setIsSending(true)
 
         const message_id = Date.now();
 
@@ -49,21 +42,14 @@ const ChatInput = () => {
                 user: user?.uid,
                 user_name: user.first_name
             });
-            setBody_value(""); // Reset the input after sending
-
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(registration => {
-                        console.log('Service Worker registered with scope:', registration.scope);
-                    })
-                    .catch(error => {
-                        console.log('Service Worker registration failed:', error);
-                    });
-            }
-
         } catch (err) {
             message.error("Error sending message. Please try again.");
             console.log(err);
+        } finally {
+            setTimeout(() => {
+                setBody_value("");
+                setIsSending(false);
+            }, 250)
         }
     }
 
@@ -71,11 +57,17 @@ const ChatInput = () => {
         <Row style={{justifyContent: "center", alignItems: "center", position: "fixed", bottom: 0}}>
             <Col span={24}>
                 <Input
+                    disabled={isSending}
+                    placeholder={"Жазғың келсе 🙈"}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !isSending && body_value.length) onSendMessage();
+                    }}
                     style={{
                         resize: "none",
                         width: "100vw",
                         padding: "24px 14px 34px 14px",
-                        boxShadow: "inset 0 14px 8px rgba(0,0,0, 5)",
+                        background: "linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(255,255,255,1) 25%)",
+                        boxShadow: "0 -14px 8px rgba(0,0,0, 5)",
                         outline: "none",
                         border: "none",
                         borderRadius: "0"
@@ -87,11 +79,13 @@ const ChatInput = () => {
             {isInput &&
                 <Col style={{position: "fixed", bottom: 30, right: 10}}>
                     <Button
+                        loading={isSending}
+                        disabled={isSending}
                         onClick={onSendMessage}
                         type="primary"
                         htmlType="submit"
                     >
-                        <ArrowUpOutlined/>
+                        {!isSending && <ArrowUpOutlined/>}
                     </Button>
                 </Col>
             }

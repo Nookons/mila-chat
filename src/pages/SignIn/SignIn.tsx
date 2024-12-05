@@ -21,8 +21,13 @@ const SignIn = () => {
     const onFormFinish = async (values: any) => {
         try {
             setIsLogin(true);
+            if (!values.username) {
+                message.warning("Неправильный логин")
+            }
+
             const q = query(collection(db, "accounts"), where("username", "==", values.username));
             const querySnapshot = await getDocs(q);
+
 
             querySnapshot.forEach((doc) => {
                 if (doc.data().password === values.password) {
@@ -37,7 +42,6 @@ const SignIn = () => {
                 navigate(HOME_ROUTE);
             }, 250)
         } catch (err) {
-            err && message.error(err.toString());
             setIsLogin(false);
         }
     };
@@ -61,7 +65,7 @@ const SignIn = () => {
                 <Form
                     form={form}
                     name="basic"
-                    labelCol={{span: 8}}
+                    labelCol={{span: 9}}
                     wrapperCol={{span: 24}}
                     layout="horizontal"
                     initialValues={{remember: true}}
@@ -69,13 +73,13 @@ const SignIn = () => {
                     onFinishFailed={onFormFinishFailed}
                 >
                     <h3>❤️ Жеке чат</h3>
-                    <Form.Item label="Username" name="username">
-                        <Input/>
+                    <Form.Item label={<span>Пайдаланушы аты</span>} name="username">
+                        <Input placeholder={"mila"}/>
                     </Form.Item>
-                    <Form.Item label="Password" name="password">
-                        <Input.Password placeholder="input password" />
+                    <Form.Item label={<span>Құпия сөз</span>} name="password">
+                        <Input.Password placeholder="❤️❤️❤️❤️" />
                     </Form.Item>
-                    <Form.Item wrapperCol={{offset: 8, span: 24}}>
+                    <Form.Item wrapperCol={{offset: 9, span: 24}}>
                         <Button loading={isLogin} type="primary" htmlType="submit">
                             Login
                         </Button>

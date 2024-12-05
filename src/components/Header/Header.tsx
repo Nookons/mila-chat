@@ -15,11 +15,12 @@ const Header = () => {
     return (
         <div style={{ display: 'flex', justifyContent: 'flex-end', padding: 14 }}>
             <Modal
-                title="Chat settings"
+                title="Чат параметрлері"
                 open={isModal}
                 onCancel={() => setIsModal(false)}
                 footer={[]}
             >
+                <article>Сөйлесу фонын өзгерту мүмкіндігі болады, бірақ күту керек</article>
             </Modal>
             <Space direction="horizontal">
                 {user && (
