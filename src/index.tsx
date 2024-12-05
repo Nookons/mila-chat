@@ -8,6 +8,17 @@ import {ComponentPreviews, useInitial} from "./dev";
 import {Provider} from "react-redux";
 import store from "./store";
 
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+        .register('/service-worker.js')
+        .then(registration => {
+            console.log('Service Worker registered with scope:', registration.scope);
+        })
+        .catch(error => {
+            console.log('Service Worker registration failed:', error);
+        });
+}
+
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );

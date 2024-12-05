@@ -19,7 +19,7 @@ const Home = () => {
     }
 
     return (
-        <div style={{padding:'14px'}}>
+        <div>
             <ChatDisplay />
             <ChatInput />
         </div>

@@ -1,33 +1,48 @@
-import React, { useEffect, useRef } from 'react';
-import { Row, Col, Skeleton, Alert, FloatButton } from "antd";
-import { useCollection } from "react-firebase-hooks/firestore";
-import { collection, getFirestore, query, orderBy } from "firebase/firestore";
-import { app } from "../../firebase";
-import { useAppSelector } from "../../hooks/storeHooks";
+import React, {useEffect, useRef, useState} from 'react';
+import {Row, Col, Skeleton, Alert} from "antd";
+import {useCollection} from "react-firebase-hooks/firestore";
+import {collection, getFirestore, query, orderBy, onSnapshot, doc} from "firebase/firestore";
+import {app, db} from "../../firebase";
+import {useAppSelector} from "../../hooks/storeHooks";
 import "./Messages.css"
-import Text from "antd/es/typography/Text";
-import dayjs from "dayjs";
-import Button from "antd/es/button";
-import {CommentOutlined, DashOutlined} from '@ant-design/icons';
 import Message from "./Message";
 import {IMessage} from "../../types/Message";
+import {useNavigate} from "react-router-dom";
+import {SIGN_IN_ROUTE} from "../../utils/const";
 
 const ChatDisplay = () => {
+    const navigate = useNavigate();
     const user = useAppSelector((state) => state.user.user);
-    const chatContainerRef = useRef<HTMLDivElement>(null); // Reference to the chat container
+    const chatContainerRef = useRef<HTMLDivElement>(null);
+    const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
+
+    const [background, setBackground] = useState<any | null>(null);
 
     const [value, loading, error] = useCollection(
-        query(collection(getFirestore(app), 'chat_room'), orderBy('createdAt', 'asc')), // Sort messages by createdAt field
+        query(collection(getFirestore(app), 'chat_room'), orderBy('createdAt', 'asc')),
         {
-            snapshotListenOptions: { includeMetadataChanges: true },
+            snapshotListenOptions: {includeMetadataChanges: true},
         }
     );
 
     useEffect(() => {
-        if (chatContainerRef.current) {
+        if (isScrolledToBottom && chatContainerRef.current) {
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
-    }, [value]); // Depend on `value` to trigger when messages change
+    }, [value, isScrolledToBottom]);
+
+    useEffect(() => {
+        const unsub = onSnapshot(doc(db, "chat_settings", "background"), (doc) => {
+            setBackground(doc.data());
+        });
+    }, []);
+
+    const handleScroll = () => {
+        if (!chatContainerRef.current) return;
+        const {scrollTop, scrollHeight, clientHeight} = chatContainerRef.current;
+        setIsScrolledToBottom(scrollTop + clientHeight >= scrollHeight - 10); // Allow a small threshold
+    };
+
 
     if (loading) {
         return (
@@ -42,29 +57,37 @@ const ChatDisplay = () => {
                 }}
                 gutter={[16, 16]}
             >
-                <Skeleton />
+                <Skeleton/>
             </Row>
         );
     }
 
     if (error) {
-        return <Alert message="Error loading messages" type="error" />;
+        return <Alert message="Error loading messages" type="error"/>;
     }
 
     if (!user) {
-        return <Alert message="Error loading messages" type="error" />;
+        navigate(SIGN_IN_ROUTE);
     }
 
     return (
         <Row
-            className={"chat_block"}
+            ref={chatContainerRef}
+            onScroll={handleScroll}
+            className="chat_block"
+            style={{
+                background: `url(${background.url})`,
+                backgroundSize: "contain"
+            }}
             gutter={[16, 16]}
         >
-            <Col span={24} ref={chatContainerRef}> {/* Use the ref here */}
+            <Col
+                span={24}
+            >
                 {value?.docs.map((doc) => {
                     const messageData = doc.data();
                     return (
-                        <Message messageData={messageData as IMessage}/>
+                        <Message key={doc.id} messageData={messageData as IMessage}/>
                     );
                 })}
             </Col>

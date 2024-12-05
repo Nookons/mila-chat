@@ -62,19 +62,20 @@ const SignIn = () => {
                     form={form}
                     name="basic"
                     labelCol={{span: 8}}
-                    wrapperCol={{span: 16}}
+                    wrapperCol={{span: 24}}
                     layout="horizontal"
                     initialValues={{remember: true}}
                     onFinish={onFormFinish}
                     onFinishFailed={onFormFinishFailed}
                 >
+                    <h3>❤️ Жеке чат</h3>
                     <Form.Item label="Username" name="username">
                         <Input/>
                     </Form.Item>
                     <Form.Item label="Password" name="password">
-                        <Input.OTP mask="🔒" length={4}/>
+                        <Input.OTP style={{width: '100%'}} mask="❤️" length={4}/>
                     </Form.Item>
-                    <Form.Item wrapperCol={{offset: 8, span: 16}}>
+                    <Form.Item wrapperCol={{offset: 8, span: 24}}>
                         <Button loading={isLogin} type="primary" htmlType="submit">
                             Login
                         </Button>

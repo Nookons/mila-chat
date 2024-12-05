@@ -1,27 +1,37 @@
-import React from 'react';
-import {Space} from "antd";
-import Button from "antd/es/button";
-import {useNavigate} from "react-router-dom";
-import {SIGN_IN_ROUTE} from "../../utils/const";
-import {useAppDispatch, useAppSelector} from "../../hooks/storeHooks";
-import {userLogout} from "../../store/reducers/user";
+import React, { useState } from 'react';
+import { Modal, Space, Upload, message } from 'antd';
+import Button from 'antd/es/button';
+import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
+import { userLogout } from '../../store/reducers/user';
+import { InboxOutlined, LogoutOutlined, SettingOutlined } from '@ant-design/icons';
 
 const Header = () => {
-    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const user = useAppSelector(state => state.user.user);
 
+    const [isModal, setIsModal] = useState<boolean>(false);
+
+
     return (
-        <div style={{
-            display: 'flex',
-            justifyContent: "flex-end",
-            padding: 14
-        }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', padding: 14 }}>
+            <Modal
+                title="Chat settings"
+                open={isModal}
+                onCancel={() => setIsModal(false)}
+                footer={[]}
+            >
+            </Modal>
             <Space direction="horizontal">
-                {user
-                    ? <Button onClick={() => dispatch(userLogout())} type="default">Log Out</Button>
-                    : <Button onClick={() => navigate(SIGN_IN_ROUTE)} type="default">Sign In</Button>
-                }
+                {user && (
+                    <Button shape={'circle'} onClick={() => dispatch(userLogout())} type="default">
+                        <LogoutOutlined />
+                    </Button>
+                )}
+                {user && (
+                    <Button shape={'circle'} onClick={() => setIsModal(true)} type="default">
+                        <SettingOutlined />
+                    </Button>
+                )}
             </Space>
         </div>
     );

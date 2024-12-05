@@ -1,12 +1,13 @@
 
 .chat_block {
-    border-radius: 4px;
-    padding: 4px;
-    max-height: 75vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     overflow-y: auto;
-    background: url("https://i.pinimg.com/736x/11/51/b5/1151b51cd51861cb5ce730a13653b89c.jpg");
-    background-size: cover;
-    margin: 14px 0;
+    z-index: -1;
+    padding: 50px 0 75px 0;
 }
 .chat_block::-webkit-scrollbar {
     width: 0;
@@ -17,15 +18,19 @@
     width: auto;
     display: flex;
     justify-content: right;
+    position: relative;
 }
 .user_message > div {
     background: rgb(196, 255, 122);
-    border-radius: 26px;
-    padding: 14px 14px;
+    border-radius: 16px 26px 4px 16px;
+    padding: 14px 4px;
     max-width: 520px;
+    cursor: grab;
 }
 .user_message > div span {
     color: #0c9700;
+    transition: .3s all ease;
+    position: relative;
 }
 
 .not_user_message {
@@ -36,7 +41,8 @@
 }
 .not_user_message > div {
     background: rgb(249, 255, 251);
-    border-radius: 26px;
+    border-radius: 26px 16px 16px 4px;
     padding: 14px 14px;
     max-width: 520px;
+    cursor: grab;
 }

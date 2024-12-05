@@ -5,4 +5,5 @@ export interface IMessage {
     message_id: number;
     user: string;
     user_name: string;
+    isRead?: string[];
 }
