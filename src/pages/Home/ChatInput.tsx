@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Col, Row, Spin, message} from "antd";
+import {Col, Row, Spin, message, Input} from "antd";
 import Button from "antd/es/button";
 import TextArea from "antd/es/input/TextArea";
 import {ArrowUpOutlined} from '@ant-design/icons';
@@ -70,18 +70,24 @@ const ChatInput = () => {
     return (
         <Row style={{justifyContent: "center", alignItems: "center", position: "fixed", bottom: 0}}>
             <Col span={24}>
-                <TextArea
-                    style={{resize: "none", width: "100vw"}}
+                <Input
+                    style={{
+                        resize: "none",
+                        width: "100vw",
+                        padding: "24px 14px 34px 14px",
+                        boxShadow: "inset 0 14px 8px rgba(0,0,0, 5)",
+                        outline: "none",
+                        border: "none",
+                        borderRadius: "0"
+                }}
                     value={body_value}
                     onChange={(e) => setBody_value(e.target.value)}
-                    rows={2}
                 />
             </Col>
             {isInput &&
-                <Col style={{position: "fixed", bottom: 10, right: 10}}>
+                <Col style={{position: "fixed", bottom: 30, right: 10}}>
                     <Button
                         onClick={onSendMessage}
-                        shape="circle"
                         type="primary"
                         htmlType="submit"
                     >

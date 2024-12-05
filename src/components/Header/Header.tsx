@@ -23,12 +23,12 @@ const Header = () => {
             </Modal>
             <Space direction="horizontal">
                 {user && (
-                    <Button shape={'circle'} onClick={() => dispatch(userLogout())} type="default">
+                    <Button style={{boxShadow: "2px 2px 8px rgba(0,0,0, 1)"}} shape={'circle'} onClick={() => dispatch(userLogout())} type="default">
                         <LogoutOutlined />
                     </Button>
                 )}
                 {user && (
-                    <Button shape={'circle'} onClick={() => setIsModal(true)} type="default">
+                    <Button style={{boxShadow: "2px 2px 8px rgba(0,0,0, 1)"}} shape={'circle'} onClick={() => setIsModal(true)} type="default">
                         <SettingOutlined />
                     </Button>
                 )}

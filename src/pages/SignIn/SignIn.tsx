@@ -73,7 +73,7 @@ const SignIn = () => {
                         <Input/>
                     </Form.Item>
                     <Form.Item label="Password" name="password">
-                        <Input.OTP style={{width: '100%'}} mask="❤️" length={4}/>
+                        <Input.Password placeholder="input password" />
                     </Form.Item>
                     <Form.Item wrapperCol={{offset: 8, span: 24}}>
                         <Button loading={isLogin} type="primary" htmlType="submit">
